@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel de Chamados | Help Desk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="icon" href="img/icon.png" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-helpdesk">
+  <div class="container my-4">
+
+    <!-- Header -->
+    <div class="d-flex flex-column align-items-center text-center mb-4">
+      <h1 class="mb-2 text-light title-glow">
+        <i class="bi bi-headset"></i> Painel de Controle • Help Desk
+      </h1>
+      <p class="text-light-50 mb-0">
+        Organize chamados, acompanhe status e mantenha o controle — tudo em um painel rápido e prático.
+      </p>
+    </div>
+
+    <!-- Cards -->
+    <div class="row mb-4 g-3 text-center">
+      <div class="col-md-4">
+        <div class="card glass stat-card stat-open">
+          <div class="card-body">
+            <div class="stat-top">
+              <span class="stat-icon"><i class="bi bi-exclamation-circle"></i></span>
+              <h5 class="m-0">Abertos</h5>
+            </div>
+            <h2 id="countAberto" class="stat-number">0</h2>
+            <small class="text-light-50">Chamados aguardando atendimento</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card glass stat-card stat-progress">
+          <div class="card-body">
+            <div class="stat-top">
+              <span class="stat-icon"><i class="bi bi-arrow-repeat"></i></span>
+              <h5 class="m-0">Em andamento</h5>
+            </div>
+            <h2 id="countAndamento" class="stat-number">0</h2>
+            <small class="text-light-50">Chamados em execução</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card glass stat-card stat-done">
+          <div class="card-body">
+            <div class="stat-top">
+              <span class="stat-icon"><i class="bi bi-check-circle"></i></span>
+              <h5 class="m-0">Finalizados</h5>
+            </div>
+            <h2 id="countFinalizado" class="stat-number">0</h2>
+            <small class="text-light-50">Chamados resolvidos</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="card glass mb-4">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+          <h5 class="m-0 text-light">
+            <i class="bi bi-plus-circle"></i> Novo Chamado
+          </h5>
+          <span class="text-light-50 small">
+            Dica: título direto + usuário responsável
+          </span>
+        </div>
+
+        <form id="formChamado">
+          <div class="row g-3">
+            <div class="col-lg-4">
+              <label class="form-label text-light-50">Título do problema</label>
+              <input type="text" id="titulo" class="form-control form-control-lg" placeholder="Ex: Sem internet no laboratório" required>
+            </div>
+
+            <div class="col-lg-4">
+              <label class="form-label text-light-50">Usuário</label>
+              <input type="text" id="usuario" class="form-control form-control-lg" placeholder="Ex: Bruno (Secretaria)" required>
+            </div>
+
+            <div class="col-lg-4">
+              <label class="form-label text-light-50">Status</label>
+              <select id="status" class="form-select form-select-lg">
+                <option value="Aberto">Aberto</option>
+                <option value="Em andamento">Em andamento</option>
+                <option value="Finalizado">Finalizado</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2 mt-3">
+            <button class="btn btn-primary btn-lg px-4" type="submit">
+              <i class="bi bi-send"></i> Adicionar
+            </button>
+            <button class="btn btn-outline-light btn-lg" type="button" id="btnLimparTudo">
+              <i class="bi bi-trash"></i> Limpar dados
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Filter + Search -->
+    <div class="card glass mb-4">
+      <div class="card-body">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-4">
+            <label class="form-label text-light-50">Filtrar por status</label>
+            <select id="filtroStatus" class="form-select form-select-lg">
+              <option value="Todos">Todos</option>
+              <option value="Aberto">Abertos</option>
+              <option value="Em andamento">Em andamento</option>
+              <option value="Finalizado">Finalizados</option>
+            </select>
+          </div>
+
+          <div class="col-md-8">
+            <label class="form-label text-light-50">Buscar</label>
+            <div class="input-group input-group-lg">
+              <span class="input-group-text bg-dark text-light border-0">
+                <i class="bi bi-search"></i>
+              </span>
+              <input type="text" id="busca" class="form-control" placeholder="Buscar por título ou usuário...">
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between flex-wrap gap-2 mt-3">
+          <span class="text-light-50 small" id="infoResultados">0 resultados</span>
+          <span class="text-light-50 small">Dados salvos automaticamente (localStorage)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card glass">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+          <h5 class="m-0 text-light">
+            <i class="bi bi-list-check"></i> Lista de Chamados
+          </h5>
+          <span class="text-light-50 small">
+            Clique em “Excluir” para remover o chamado
+          </span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-borderless table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th style="width:70px">#</th>
+                <th>Título</th>
+                <th style="width:240px">Usuário</th>
+                <th style="width:190px">Status</th>
+                <th style="width:120px">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="listaChamados"></tbody>
+          </table>
+        </div>
+
+        <div id="emptyState" class="empty-state d-none">
+          <div class="empty-icon"><i class="bi bi-inbox"></i></div>
+          <h6 class="text-light mb-1">Nenhum chamado encontrado</h6>
+          <p class="text-light-50 mb-0">Tente ajustar o filtro ou criar um novo chamado acima.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

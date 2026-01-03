@@ -1,0 +1,232 @@
+:root{
+  --glass: rgba(30, 30, 60, 0.60);
+  --border: rgba(255, 255, 255, 0.10);
+  --text-soft: rgba(255,255,255,0.65);
+
+  --purple: #c77dff;
+  --blue: #4dabf7;
+  --green: #51cf66;
+}
+
+* { box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Fundo com imagem (mais destaque) */
+.bg-helpdesk{
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(40, 20, 80, 0.55) 0%,
+      rgba(10, 10, 30, 0.78) 70%
+    ),
+    url("../img/background.webp") no-repeat center center fixed;
+  background-size: cover;
+  filter: saturate(1.15) contrast(1.08);
+}
+
+/* Texto suave */
+.text-light-50{ color: var(--text-soft) !important; }
+
+/* Título com brilho leve */
+.title-glow{
+  text-shadow: 0 0 18px rgba(199, 125, 255, 0.35);
+}
+
+/* Glassmorphism */
+.glass{
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  color: #fff;
+  border-radius: 18px;
+}
+
+/* Cards de estatística */
+.stat-card{
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.stat-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.stat-top{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.6rem;
+  margin-bottom:.4rem;
+}
+.stat-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.10);
+  font-size: 1.1rem;
+}
+.stat-number{
+  font-weight: 800;
+  letter-spacing: .5px;
+  margin: .1rem 0 .2rem;
+}
+
+.stat-open{ border-left: 6px solid var(--purple); }
+.stat-progress{ border-left: 6px solid var(--blue); }
+.stat-done{ border-left: 6px solid var(--green); }
+
+/* Inputs */
+.form-control,
+.form-select{
+  background: rgba(255, 255, 255, 0.10) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  border-radius: 14px !important;
+}
+
+/* ✅ FIX: dropdown do select legível */
+.form-select{
+  color-scheme: dark; /* ajuda o browser a usar tema escuro no dropdown */
+}
+.form-select option{
+  background-color: rgba(15, 16, 37, 0.98); /* fundo escuro */
+  color: #fff;                               /* texto branco */
+}
+
+.form-control::placeholder{
+  color: rgba(255,255,255,0.55) !important;
+}
+.form-control:focus,
+.form-select:focus{
+  box-shadow: 0 0 0 .25rem rgba(199,125,255,0.18) !important;
+  border-color: rgba(199,125,255,0.45) !important;
+}
+
+/* Botões */
+.btn-primary{
+  background: linear-gradient(45deg, #7b2cbf, #5a189a) !important;
+  border: none !important;
+  border-radius: 14px !important;
+}
+.btn-outline-light{
+  border-radius: 14px !important;
+}
+
+/* Tabela */
+.table{
+  color: #fff !important;
+  margin: 0;
+}
+
+/* FIX: impedir fundo branco nas linhas/células (Bootstrap table vars) */
+.table{
+  --bs-table-bg: transparent;
+  --bs-table-color: #fff;
+  --bs-table-striped-bg: rgba(255,255,255,0.03);
+  --bs-table-hover-bg: rgba(255,255,255,0.05);
+}
+
+/* garante que células não herdem branco */
+.table > :not(caption) > * > *{
+  background-color: transparent !important;
+}
+
+/* dá um “fundo escuro leve” nas linhas pra ficar legível e bonito */
+.table tbody tr{
+  background: rgba(10, 10, 30, 0.28);
+}
+
+.table thead th{
+  background: rgba(56, 40, 85, 0.55);
+  color: rgba(255,255,255,0.92);
+  border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+}
+.table td{
+  border-top: 1px solid rgba(255,255,255,0.08) !important;
+}
+.table-hover tbody tr:hover{
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* FIX: hover do texto (Título e Usuário) seguindo o tema roxo */
+.table tbody tr:hover td{
+  color: #c77dff !important; /* roxo do tema */
+  transition: color 0.15s ease;
+}
+
+/* Badges de status */
+.badge-status{
+  display: inline-flex;
+  align-items:center;
+  gap: .45rem;
+  padding: .48rem .7rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: .9rem;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+}
+
+.badge-aberto{
+  color: #1b0b2b;
+  background: rgba(199,125,255,0.95);
+  border-color: rgba(199,125,255,0.65);
+}
+.badge-andamento{
+  color: #041a2c;
+  background: rgba(77,171,247,0.95);
+  border-color: rgba(77,171,247,0.65);
+}
+.badge-finalizado{
+  color: #041b0f;
+  background: rgba(81,207,102,0.95);
+  border-color: rgba(81,207,102,0.65);
+}
+
+/* Estado vazio */
+.empty-state{
+  text-align:center;
+  padding: 26px 10px 8px;
+}
+.empty-icon{
+  font-size: 2.2rem;
+  opacity: .8;
+  margin-bottom: 8px;
+}
+
+/* Responsivo */
+@media (max-width: 576px){
+  .stat-top{ justify-content: flex-start; }
+  .stat-card .card-body{ text-align: left; }
+}
+
+/* ===== Ajuste Título + Criado em (responsivo) ===== */
+
+.titulo-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.titulo-data{
+  white-space: nowrap;
+  opacity: 0.85;
+}
+
+/* Mobile: volta para vertical */
+@media (max-width: 768px){
+  .titulo-wrapper{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+}
